@@ -37,6 +37,10 @@ export default function AddExpense() {
       comment,
     };
 
+    if (navigator.vibrate) {
+      navigator.vibrate(50);
+    }
+
     saveExpenses(newExpense);
 
     setShowSuccess(true); // Показываем кружок
