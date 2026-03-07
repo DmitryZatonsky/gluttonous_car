@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/gluttonous_car/',
+  base: "https://dmitryzatonsky.github.io/gluttonous_car/",
 })
