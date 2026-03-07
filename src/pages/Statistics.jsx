@@ -35,8 +35,8 @@ export default function Statistics() {
       <h2 className="page-title">Статистика</h2>
 
       <div className="stats-card">
-        <div className="chart-container" style={{ width: '100%', height: 250, position: 'relative' }}>
-          <ResponsiveContainer>
+        <div className="chart-container" style={{ width: '100%', height: '300px', position: 'relative' }}>
+          <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={data}
@@ -50,8 +50,7 @@ export default function Statistics() {
                 ))}
               </Pie>
               <Tooltip 
-                contentStyle={{ backgroundColor: '#232035', border: 'none', borderRadius: '8px', color: '#fff' }}
-                itemStyle={{ color: '#fff' }}
+                contentStyle={{ backgroundColor: '#232035', border: 'none', borderRadius: '8px' }}
               />
             </PieChart>
           </ResponsiveContainer>

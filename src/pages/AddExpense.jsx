@@ -28,7 +28,7 @@ export default function AddExpense() {
     saveExpenses(newExpense);
 
     setShowSuccess(true); // Показываем кружок
-    setTimeout(() => setShowSuccess(false), 2000);
+    setTimeout(() => setShowSuccess(false), 1500);
 
     // Очищаем поля (кроме даты и категории)
     setMileage('');
