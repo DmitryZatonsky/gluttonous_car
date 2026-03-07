@@ -16,8 +16,16 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+
+  position: fixed;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+
   /* Убирает выделение при долгом нажатии */
   -webkit-touch-callout: none;
+  overscroll-behavior-y: contain; 
+  overscroll-behavior: none;
 }
 
 body {
@@ -47,6 +55,7 @@ body {
   background-color: var(--bg-color);
   padding-bottom: 70px; /* Отступ снизу для будущего нижнего меню */
   overflow-y: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;/* Для плавной прокрутки на iOS */
 }
 
