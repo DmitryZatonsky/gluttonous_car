@@ -184,7 +184,7 @@ img, button, .stat-box {
   background: var(--card-bg);
   border-radius: 16px;
   padding: 16px;
-  border: 1px solid #3d3952;
+  border: 1px solid var(--card-bg);
   transition: 0.2s;
 }
 
@@ -208,7 +208,7 @@ img, button, .stat-box {
 .delete-btn {
   background: none;
   border: none;
-  color: #ff4444;
+  color: var(--accent-pink);
   cursor: pointer;
   opacity: 0.6;
 }
@@ -349,8 +349,8 @@ img, button, .stat-box {
   cursor: pointer;
 }
 
-.modal-btn.cancel { background: #3d3952; color: white; }
-.modal-btn.confirm { background: #ff4444; color: white; }
+.modal-btn.cancel { background: var(--text-muted); color: var(--text-main); }
+.modal-btn.confirm { background: var(--accent-pink); color: var(--text-main); }
 
 /* Анимация успеха */
 .success-circle {
