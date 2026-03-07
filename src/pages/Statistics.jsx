@@ -9,6 +9,7 @@ export default function Statistics() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [stats, setStats] = useState({ costPerKm: 0, fuelPerKm: 0 });
+  
   useEffect(() => {
     const expenses = getExpenses();
     if (expenses.length === 0) return;
@@ -88,18 +89,18 @@ export default function Statistics() {
         </div>
       </div>
 
-      {/* <div className="stats-grid">
+      <div className="stats-grid">
         <div className="stat-box">
           <span className="stat-label">Трат всего</span>
           <span className="stat-value">{data.length}</span>
         </div>
         <div className="stat-box">
-          <span className="stat-label">Средний чек</span>
+          <span className="stat-label">Всего потрачено</span>
           <span className="stat-value">
             {data.length > 0 ? Math.round(total / getExpenses().length) : 0} ₴
           </span>
         </div>
-      </div> */}
+      </div>
 
       {/* Список категорий под графиком */}
       <div className="category-legend">
