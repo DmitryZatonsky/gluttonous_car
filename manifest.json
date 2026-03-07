@@ -6,5 +6,16 @@
   "background_color": "#1a1825",
   "theme_color": "#d9008d",
   "orientation": "portrait",
-  "icons": []
+  "icons": [
+    {
+      "src": "/gluttonous_car/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/gluttonous_car/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
