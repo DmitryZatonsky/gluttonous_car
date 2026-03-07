@@ -1,5 +1,5 @@
 :root {
-  /* Цветовая палитра из твоего дизайна */
+  /* Цветовая палитра */
   --bg-color: #1a1727;       /* Глубокий темно-фиолетовый фон */
   --card-bg: #232035;        /* Чуть более светлый фон для карточек и инпутов */
   --text-main: #ffffff;      /* Белый текст */
@@ -21,16 +21,16 @@ html, body {
 }
 
 body {
-  /* Запрещаем выделять текст*/
-  -webkit-user-select: none;
+ 
+  -webkit-user-select: none; /* Запрещаем выделять текст*/
   user-select: none;
+  -webkit-tap-highlight-color: transparent;/* Убираем синюю подсветку при тапе на Android */
+  overscroll-behavior-y: none;/* Защита от "резиновой" прокрутки за пределы экрана и обновление потяжкой вниз */
   
-  /* Убираем синюю подсветку при тапе на Android */
-  -webkit-tap-highlight-color: transparent;
-  
-  /* Защита от "резиновой" прокрутки за пределы экрана */
-  overscroll-behavior-y: none;
-  
+  height: 100%;
+  overflow: hidden; 
+  position: fixed;
+  width: 100%;
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
@@ -39,26 +39,31 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Разрешаем выделять текст в полях ввода (чтобы можно было скопировать комментарий) */
-input, textarea {
+#root {/* Ограничиваем ширину, чтобы на ПК приложение выглядело как мобильное */
+  max-width: 480px;
+  margin: 0 auto;
+  /* min-height: 100vh; */
+  height: 100%;
+  position: relative;
+  background-color: var(--bg-color);
+  padding-bottom: 70px; /* Отступ снизу для будущего нижнего меню */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;/* Для плавной прокрутки на iOS */
+}
+
+input, textarea { /* Разрешаем выделять текст в полях ввода (чтобы можно было скопировать комментарий) */
   -webkit-user-select: auto;
   user-select: auto;
 
 }
 
-/* Ограничиваем ширину, чтобы на ПК приложение выглядело как мобильное */
-#root {
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  position: relative;
-  background-color: var(--bg-color);
-  padding-bottom: 70px; /* Отступ снизу для будущего нижнего меню */
-  /* Для плавной прокрутки на iOS */
-  -webkit-overflow-scrolling: touch;
+img, button, .stat-box {
+  -webkit-touch-callout: none; /* Запрещает контекстное меню на iOS */
+  -webkit-user-select: none;   /* Запрещает выделение */
 }
 
 /*========================= Стили для нижнего меню =========================*/
+
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -98,6 +103,9 @@ input, textarea {
 
 .page-container {
   padding: 20px;
+  min-height: 100dvh; /* Динамическая высота под размер экрана */
+  padding-bottom: 80px; /* Оставь место под будущую нижнюю навигацию */
+  box-sizing: border-box;
 }
 
 .page-title {
