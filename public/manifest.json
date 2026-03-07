@@ -3,8 +3,8 @@
   "short_name": "Прожорливый Автомобиль",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#1a1825",
-  "theme_color": "#d9008d",
+  "background_color": "#1a1727",
+  "theme_color": "#1a1727",
   "orientation": "portrait",
   "icons": [
     {
