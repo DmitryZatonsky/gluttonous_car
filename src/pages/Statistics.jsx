@@ -88,7 +88,7 @@ export default function Statistics() {
         </div>
       </div>
 
-      <div className="stats-grid">
+      {/* <div className="stats-grid">
         <div className="stat-box">
           <span className="stat-label">Трат всего</span>
           <span className="stat-value">{data.length}</span>
@@ -99,7 +99,7 @@ export default function Statistics() {
             {data.length > 0 ? Math.round(total / getExpenses().length) : 0} ₴
           </span>
         </div>
-      </div>
+      </div> */}
 
       {/* Список категорий под графиком */}
       <div className="category-legend">
