@@ -351,4 +351,34 @@ input[type="date"]::-webkit-datetime-edit {
   padding: 0;
 }
 
+/* ========================= Стили для легенды ========================= */
 
+.category-legend {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.legend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.legend-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-item .label { color: #8a8894; font-size: 14px; }
+.legend-item .value { font-weight: 600; color: #fff; }

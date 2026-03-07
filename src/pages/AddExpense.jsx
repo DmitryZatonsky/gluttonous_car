@@ -2,12 +2,14 @@ import{ useState } from "react";
 import { saveExpenses } from "../utils/storage";
 import SuccessPopup from '../components/SuccessPopup';
 
+const FUEL_TYPES = ['Бензин', 'Газ', 'Дизель', 'Электричество'];
 const CATEGORIES = ['Топливо', 'ТО', 'Мойка', 'Запчасти', 'Ремонт', 'Страховка', 'Другое'];
 
 export default function AddExpense() {
   // Состояние для полей формы
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
-  const [category, setCategory] = useState('Топливо')
+  const [category, setCategory] = useState('Топливо');
+  const [fuelType, setFuelType] = useState('Бензин');
   const [mileage, setMileage] = useState('');
   const [amount, setAmount] = useState('');
   const [comment , setComment] = useState('');
@@ -20,6 +22,7 @@ export default function AddExpense() {
       id: Date.now(),
       date,
       category,
+      fuelType: category === 'Топливо' ? fuelType : null,
       mileage: Number(mileage),
       amount: Number(amount),
       comment,
@@ -52,12 +55,22 @@ export default function AddExpense() {
 
           <div className="input-group">
             <label>Категория</label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}>
-              {CATEGORIES.map((category) => <option key={category} value={category}>{category}</option>)}
+            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              {/* Список категорий должен быть ВНУТРИ select */}
+              {CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
             </select>
           </div>
+
+            {category === 'Топливо' && (
+              <div className="input-group">
+                <label>Тип топлива</label>
+                <select value={fuelType} onChange={(e) => setFuelType(e.target.value)}>
+                  {FUEL_TYPES.map(type => <option key={type} value={type}>{type}</option>)}
+                </select>
+              </div>
+            )}
 
           <div className="input-group">
             <label>Пробег (км)</label>
