@@ -1,7 +1,7 @@
 {
   "name": "Gluttonous_car",
   "short_name": "Прожорливый Автомобиль",
-  "start_url": "/gluttonous_car/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#1a1825",
   "theme_color": "#d9008d",
