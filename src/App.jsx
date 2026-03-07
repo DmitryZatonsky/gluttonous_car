@@ -8,7 +8,7 @@ import BottomNav from './components/BottomNav';
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <BrowserRouter basename="/gluttonous_car">
         <Routes>
           <Route path='/' element={<AddExpense />} />
           <Route path='/history' element={<History />} />
