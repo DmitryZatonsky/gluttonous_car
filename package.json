@@ -11,7 +11,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://DmitryZatonsky.github.io/gluttonous_car",
+  "homepage": "https://dmitryzatonsky.github.io/gluttonous_car/",
   "dependencies": {
     "lucide-react": "^0.577.0",
     "react": "^19.2.0",
