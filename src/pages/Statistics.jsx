@@ -15,7 +15,7 @@ export default function Statistics() {
   const maxMileage = Math.max(...mileages);
   const minMileage = Math.min(...mileages);
   const totalDistance = maxMileage - minMileage; // общий пробег
-  const costPerKm = (totalSum / totalDistance).toFixed(2); // стоимость километра всего 
+  const costPerKm = totalDistance ? (totalSum / totalDistance).toFixed(2) : 0; // стоимость километра всего 
 
   useEffect(() => {
     const expenses = getExpenses(); 
