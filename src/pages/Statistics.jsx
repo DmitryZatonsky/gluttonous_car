@@ -9,6 +9,9 @@ export default function Statistics() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [stats, setStats] = useState({ costPerKm: 0, fuelPerKm: 0 });
+  // console.log([data, setData]);
+  // console.log([total, setTotal]);
+  // console.log([stats, setStats]);
   
   useEffect(() => {
     const expenses = getExpenses();
@@ -89,19 +92,6 @@ export default function Statistics() {
         </div>
       </div>
 
-      <div className="stats-grid">
-        <div className="stat-box">
-          <span className="stat-label">Трат всего</span>
-          <span className="stat-value">{data.length}</span>
-        </div>
-        <div className="stat-box">
-          <span className="stat-label">Всего потрачено</span>
-          <span className="stat-value">
-            {data.length > 0 ? Math.round(total / getExpenses().length) : 0} ₴
-          </span>
-        </div>
-      </div>
-
       {/* Список категорий под графиком */}
       <div className="category-legend">
         {data.map((entry, index) => (
@@ -116,7 +106,7 @@ export default function Statistics() {
       </div>
 
       {/* Обновленные карточки */}
-      <div className="stats-grid">
+      <div className="stats-grid margin-bottom">
         <div className="stat-box">
           <span className="stat-label">Стоимость км (все время)</span>
           <span className="stat-value">{stats.costPerKm} ₴/км</span>
@@ -124,6 +114,20 @@ export default function Statistics() {
         <div className="stat-box">
           <span className="stat-label">Расход топлива (месяц)</span>
           <span className="stat-value">{stats.fuelPerKm} ₴/км</span>
+        </div>
+      </div>
+
+
+      <div className="stats-grid">
+        <div className="stat-box">
+          <span className="stat-label">Количество покупок</span>
+          <span className="stat-value">{data.length}</span>
+        </div>
+        <div className="stat-box">
+          <span className="stat-label">Всего потрачено</span>
+          <span className="stat-value">
+            {total} ₴
+          </span>
         </div>
       </div>
 

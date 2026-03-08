@@ -112,7 +112,7 @@ img, button, .stat-box {
 .page-container {
   padding: 20px;
   /* min-height: 100dvh; Динамическая высота под размер экрана */
-  padding-bottom: 80px; /* Оставь место под будущую нижнюю навигацию */
+  /* padding-bottom: 80px; Место под будущую нижнюю навигацию */
   box-sizing: border-box;
 }
 
@@ -287,6 +287,11 @@ img, button, .stat-box {
   grid-template-columns: 1fr 1fr;
   gap: 15px;
 }
+
+.margin-bottom {
+  margin-bottom: 20px;
+}
+
 
 .stat-box {
   background: var(--card-bg);
