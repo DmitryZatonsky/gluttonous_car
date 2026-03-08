@@ -11,7 +11,13 @@ export default function Statistics() {
   const [stats, setStats] = useState({ costPerKm: 0, fuelPerKm: 0 });
   const expenses = getExpenses();
   const sortExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
-  
+  const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0).toFixed(0); // общая сумма
+  const mileages = expenses.map(e => e.mileage).filter(m => m > 0); 
+  const maxMileage = Math.max(...mileages);
+  const minMileage = Math.min(...mileages);
+  const totalDistance = maxMileage - minMileage; // общий пробег
+  const costPerKm = (totalSum / totalDistance).toFixed(2); // стоимость километра всего 
+
   useEffect(() => {
     const expenses = getExpenses(); 
     if (expenses.length === 0) return; 
@@ -34,13 +40,6 @@ export default function Statistics() {
     setData(chartData); // для рендеринга массива категорий и сумм
   }, []);
 
-  const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0); // общая сумма
-  const mileages = expenses.map(e => e.mileage).filter(m => m > 0); 
-  const maxMileage = Math.max(...mileages);
-  const minMileage = Math.min(...mileages);
-  const totalDistance = maxMileage - minMileage; // общий пробег
-  const costPerKm = (totalSum / totalDistance).toFixed(2); // стоимость километра всего 
-  
   // средняя стоимость за км от 2 до 5 последних заправок
   const calcFuelExpense = expenses => {
     const r = expenses.reduce((acc, e) => {
@@ -67,6 +66,7 @@ export default function Statistics() {
   };
   
   const fuelExpense = calcFuelExpense(sortExpenses).toFixed(2); // грн/км расход топлива
+  console.log(fuelExpense);
 
   return (
     <div className="page-container">
