@@ -1,4 +1,5 @@
 import { PlusCircle, History, PieChart } from "lucide-react";
+// import { motion } from "framer-motion";
 
 function BottomNav({ screen, setScreen }) {
     
