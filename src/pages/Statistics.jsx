@@ -8,7 +8,6 @@ const COLORS = ['#d9008d', '#f29c11', '#4caf50', '#00bcd4', '#9c27b0', '#ff5722'
 export default function Statistics() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
-  const [stats, setStats] = useState({ costPerKm: 0, fuelPerKm: 0 });
   const expenses = getExpenses();
   const sortExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
   const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0).toFixed(0); // общая сумма
@@ -62,11 +61,10 @@ export default function Statistics() {
     
     const distance = r.maxMileage - r.minMileage;
     
-    return distance ? r.sum / distance : null;
+    return distance ? (r.sum / distance).toFixed(2) : null;
   };
   
-  const fuelExpense = calcFuelExpense(sortExpenses).toFixed(2); // грн/км расход топлива
-  console.log(fuelExpense);
+  const fuelExpense = calcFuelExpense(sortExpenses); // грн/км расход топлива
 
   return (
     <div className="page-container">
