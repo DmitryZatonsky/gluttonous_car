@@ -37,19 +37,21 @@ export default function AddExpense() {
       comment,
     };
 
-    if (navigator.vibrate) {
+    if (navigator.vibrate) { // Вибрация на телефоне 50 мс
       navigator.vibrate(50);
     }
 
     saveExpenses(newExpense);
-
-    setShowSuccess(true); // Показываем кружок
+    setShowSuccess(true); // Показываем кружок "успех"
     setTimeout(() => setShowSuccess(false), 1000);
 
     // Очищаем поля (кроме даты и категории)
+    setCategory("Топливо");
+    setFuelType("Бензин");
     setMileage("");
     setAmount("");
     setComment("");
+    // console.log(saveExpenses);
   };
 
   return (

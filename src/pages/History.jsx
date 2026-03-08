@@ -7,6 +7,7 @@ export default function History() {
   const [expenses, setExpenses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const sortExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date)); // сортировка карточек по датам
 
   // Загружаем данные при входе на страницу
   useEffect(() => {
@@ -32,9 +33,9 @@ export default function History() {
         {expenses.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', textAlign: 'center' }}>Нет данных</p>
         ) : (
-          <div className="expense-list">
-            {expenses.map((item) => (
-              <div key={item.id} className="expense-card">
+          <div className="expense-list">{console.log(sortExpenses[0])}
+            {sortExpenses.map((item) => (
+              <div key={item.id} className="expense-card">  
                 <div className="card-header">
                   <span className="category-badge">{item.category}</span>
                   <button onClick={() => confirmDelete(item.id)} className="delete-btn">

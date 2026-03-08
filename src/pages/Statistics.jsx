@@ -53,8 +53,6 @@ export default function Statistics() {
       costPerKm: totalDistance > 0 ? (totalSum / totalDistance).toFixed(2) : 0,
       fuelPerKm: monthDistance > 0 ? (fuelLastMonth / monthDistance).toFixed(2) : 0
     });
-
-    console.log(getExpenses())
   }, []);
 
   return (
