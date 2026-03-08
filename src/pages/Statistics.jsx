@@ -9,9 +9,6 @@ export default function Statistics() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [stats, setStats] = useState({ costPerKm: 0, fuelPerKm: 0 });
-  // console.log([data, setData]);
-  // console.log([total, setTotal]);
-  // console.log([stats, setStats]);
   
   useEffect(() => {
     const expenses = getExpenses();
@@ -34,8 +31,8 @@ export default function Statistics() {
 
     // 3. Поиск пробега
     const mileages = expenses.map(e => e.mileage).filter(m => m > 0);
-    const maxMileage = Math.max(...mileages, 0);
-    const minMileage = Math.min(...mileages, 0);
+    const maxMileage = Math.max(...mileages);
+    const minMileage = Math.min(...mileages);
     const totalDistance = maxMileage - minMileage;
 
     // 4. Расчет за последние 30 дней
@@ -56,6 +53,8 @@ export default function Statistics() {
       costPerKm: totalDistance > 0 ? (totalSum / totalDistance).toFixed(2) : 0,
       fuelPerKm: monthDistance > 0 ? (fuelLastMonth / monthDistance).toFixed(2) : 0
     });
+
+    console.log(getExpenses())
   }, []);
 
   return (
@@ -110,6 +109,7 @@ export default function Statistics() {
         <div className="stat-box">
           <span className="stat-label">Стоимость км (все время)</span>
           <span className="stat-value">{stats.costPerKm} ₴/км</span>
+          {/* {console.log(stats.costPerKm)}; */}
         </div>
         <div className="stat-box">
           <span className="stat-label">Расход топлива (месяц)</span>
