@@ -9,10 +9,12 @@ export default function Statistics() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
   const [stats, setStats] = useState({ costPerKm: 0, fuelPerKm: 0 });
+  const expenses = getExpenses();
+  const sortExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
   
   useEffect(() => {
-    const expenses = getExpenses();
-    if (expenses.length === 0) return;
+    const expenses = getExpenses(); 
+    if (expenses.length === 0) return; 
     
     // 1. Считаем общую сумму
     const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0);
@@ -28,32 +30,43 @@ export default function Statistics() {
       }
       return acc;
     }, []);
-
-    // 3. Поиск пробега
-    const mileages = expenses.map(e => e.mileage).filter(m => m > 0);
-    const maxMileage = Math.max(...mileages);
-    const minMileage = Math.min(...mileages);
-    const totalDistance = maxMileage - minMileage;
-
-    // 4. Расчет за последние 30 дней
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     
-    const lastMonthExpenses = expenses.filter(e => new Date(e.date) > thirtyDaysAgo);
-    const fuelLastMonth = lastMonthExpenses
-      .filter(e => e.category === 'Топливо')
-      .reduce((sum, e) => sum + e.amount, 0);
-      
-    const monthMileages = lastMonthExpenses.map(e => e.mileage).filter(m => m > 0);
-    const monthDistance = Math.max(...monthMileages, 0) - Math.min(...monthMileages, 0);
-
-    setTotal(totalSum);
-    setData(chartData); // сгруппированные данные
-    setStats({
-      costPerKm: totalDistance > 0 ? (totalSum / totalDistance).toFixed(2) : 0,
-      fuelPerKm: monthDistance > 0 ? (fuelLastMonth / monthDistance).toFixed(2) : 0
-    });
+    setData(chartData); // для рендеринга массива категорий и сумм
   }, []);
+
+  const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0); // общая сумма
+  const mileages = expenses.map(e => e.mileage).filter(m => m > 0); 
+  const maxMileage = Math.max(...mileages);
+  const minMileage = Math.min(...mileages);
+  const totalDistance = maxMileage - minMileage; // общий пробег
+  const costPerKm = (totalSum / totalDistance).toFixed(2); // стоимость километра всего 
+  
+  // средняя стоимость за км от 2 до 5 последних заправок
+  const calcFuelExpense = expenses => {
+    const r = expenses.reduce((acc, e) => {
+      if (e.category !== "Топливо" || acc.count >= 5) return acc;
+      
+      acc.sum += e.amount;
+      acc.minMileage = Math.min(acc.minMileage, e.mileage);
+      acc.maxMileage = Math.max(acc.maxMileage, e.mileage);
+      acc.count++;
+      
+      return acc;
+    }, {
+      sum: 0,
+      minMileage: Infinity,
+      maxMileage: -Infinity,
+      count: 0
+    });
+    
+    if (r.count < 2) return null;
+    
+    const distance = r.maxMileage - r.minMileage;
+    
+    return distance ? r.sum / distance : null;
+  };
+  
+  const fuelExpense = calcFuelExpense(sortExpenses).toFixed(2); // грн/км расход топлива
 
   return (
     <div className="page-container">
@@ -105,30 +118,29 @@ export default function Statistics() {
       {/* Обновленные карточки */}
       <div className="stats-grid margin-bottom">
         <div className="stat-box">
-          <span className="stat-label">Стоимость км (все время)</span>
-          <span className="stat-value">{stats.costPerKm} ₴/км</span>
+          <span className="stat-label">Стоимость км</span>
+          <span className="stat-value">{costPerKm} ₴/км</span>
           {/* {console.log(stats.costPerKm)}; */}
         </div>
         <div className="stat-box">
-          <span className="stat-label">Расход топлива (месяц)</span>
-          <span className="stat-value">{stats.fuelPerKm} ₴/км</span>
+          <span className="stat-label">до 5 заправок</span>
+          <span className="stat-value">{fuelExpense} ₴/км</span>
+          {/* {console.log(expenses)} */}
         </div>
       </div>
 
-
       <div className="stats-grid">
         <div className="stat-box">
-          <span className="stat-label">Количество покупок</span>
-          <span className="stat-value">{data.length}</span>
+          <span className="stat-label">Пройдено пути</span>
+          <span className="stat-value">{totalDistance}</span>
         </div>
         <div className="stat-box">
           <span className="stat-label">Всего потрачено</span>
           <span className="stat-value">
-            {total} ₴
+            {totalSum} ₴
           </span>
         </div>
       </div>
-
     </div>
   );
 }

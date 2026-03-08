@@ -15,8 +15,8 @@ export default function History() {
   }, []);
 
   const confirmDelete = (id) => {
-    setSelectedId(id);
-    setIsModalOpen(true);
+    setSelectedId(id); 
+    setIsModalOpen(true); 
   };
 
   const handleConfirm = () => {
@@ -33,7 +33,7 @@ export default function History() {
         {expenses.length === 0 ? (
           <p style={{ color: 'var(--text-muted)', textAlign: 'center' }}>Нет данных</p>
         ) : (
-          <div className="expense-list">{console.log(sortExpenses[0])}
+          <div className="expense-list">
             {sortExpenses.map((item) => (
               <div key={item.id} className="expense-card">  
                 <div className="card-header">
