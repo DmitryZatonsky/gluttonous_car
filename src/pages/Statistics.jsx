@@ -48,35 +48,31 @@ export default function Statistics() {
 
   // средняя стоимость за км от 2 до 3 последних заправок
 const calcFuelStats = (expenses) => {
-  const fuels = expenses
-    .filter(e => e.category === "Топливо")
-    .slice(0, 3);
+  let count = 0;
+  let firstMileage = 0;
+  let lastMileage = 0;
+  let fuelCost = 0;
+  let fuelLiters = 0;
 
-  if (fuels.length < 2) {
-    return {
-      costPerKm: 0,
-      litersPer100: 0
-    };
+  for (const e of expenses) {
+    if (e.category !== "Топливо") continue;
+
+    if (count === 0) lastMileage = e.mileage;
+    if (count === 2) firstMileage = e.mileage;
+
+    if (count < 2) {
+      fuelCost += e.amount;
+      fuelLiters += e.liters;
+    }
+
+    count++;
+    if (count === 3) break;
   }
-
-  const firstMileage = fuels[fuels.length - 1].mileage;
-  const lastMileage = fuels[0].mileage;
-
-  const fuelCost = fuels
-    .slice(0, fuels.length - 1)
-    .reduce((sum, e) => sum + e.amount, 0);
-
-  const fuelLiters = fuels
-    .slice(0, fuels.length - 1)
-    .reduce((sum, e) => sum + e.liters, 0);
 
   const distance = lastMileage - firstMileage;
 
-  if (distance <= 0) {
-    return {
-      costPerKm: 0,
-      litersPer100: 0
-    };
+  if (count < 2 || distance <= 0) {
+    return { costPerKm: 0, litersPer100: 0 };
   }
 
   return {
@@ -85,11 +81,9 @@ const calcFuelStats = (expenses) => {
   };
 };
 
-  const fuelExpense = calcFuelStats(sortExpenses); //?.toFixed(2) ?? "0,00" грн/км расход топлива
+  const fuelExpense = calcFuelStats(sortExpenses); // грн/км расход топлива
   const costPerFuelKm = fuelExpense.costPerKm ?.toFixed(2) ?? "0,00"
   const litersPer100 = fuelExpense.litersPer100 ?.toFixed(1) ?? "0,0"
-  console.log(costPerKm);
-  console.log(litersPer100);
 
 
   return (
