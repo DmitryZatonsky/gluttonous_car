@@ -67,12 +67,12 @@ export default function Statistics() {
       },
     );
     
-    if (r.count < 2) return "0,00";
+    if (r.count < 2) return 0;
     const distance = r.maxMileage - r.minMileage;
-    return distance ? r.sum / distance : "0,00";
+    return distance ? r.sum / distance : 0;
   };
   
-  const fuelExpense = calcFuelExpense(sortExpenses); // грн/км расход топлива
+  const fuelExpense = calcFuelExpense(sortExpenses)?.toFixed(2) ?? "0,00"; // грн/км расход топлива
 
   return (
     <div className="page-container">

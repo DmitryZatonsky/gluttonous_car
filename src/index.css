@@ -100,7 +100,7 @@ img, button, .stat-box {
   font-size: 12px;
   transition: all 0.3s ease;}
 
-/* Цвет активной иконки из твоего дизайна */
+
 .nav-item.active {
   color: var(--accent-pink);
 }
