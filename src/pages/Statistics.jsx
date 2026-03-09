@@ -47,32 +47,50 @@ export default function Statistics() {
   }, []);
 
   // средняя стоимость за км от 2 до 3 последних заправок
-  const calcFuelExpense = (expenses) => {
-    const r = expenses.reduce(
-      (acc, e) => {
-        if (e.category !== "Топливо" || acc.count >= 3) return acc;
+const calcFuelStats = (expenses) => {
+  const fuels = expenses
+    .filter(e => e.category === "Топливо")
+    .slice(0, 3);
 
-        acc.sum += e.amount;
-        acc.minMileage = Math.min(acc.minMileage, e.mileage);
-        acc.maxMileage = Math.max(acc.maxMileage, e.mileage);
-        acc.count++;
+  if (fuels.length < 2) {
+    return {
+      costPerKm: 0,
+      litersPer100: 0
+    };
+  }
 
-        return acc;
-      },
-      {
-        sum: 0,
-        minMileage: Infinity,
-        maxMileage: -Infinity,
-        count: 0,
-      },
-    );
-    
-    if (r.count < 2) return 0;
-    const distance = r.maxMileage - r.minMileage;
-    return distance ? r.sum / distance : 0;
+  const firstMileage = fuels[fuels.length - 1].mileage;
+  const lastMileage = fuels[0].mileage;
+
+  const fuelCost = fuels
+    .slice(0, fuels.length - 1)
+    .reduce((sum, e) => sum + e.amount, 0);
+
+  const fuelLiters = fuels
+    .slice(0, fuels.length - 1)
+    .reduce((sum, e) => sum + e.liters, 0);
+
+  const distance = lastMileage - firstMileage;
+
+  if (distance <= 0) {
+    return {
+      costPerKm: 0,
+      litersPer100: 0
+    };
+  }
+
+  return {
+    costPerKm: fuelCost / distance,
+    litersPer100: (fuelLiters / distance) * 100
   };
-  
-  const fuelExpense = calcFuelExpense(sortExpenses)?.toFixed(2) ?? "0,00"; // грн/км расход топлива
+};
+
+  const fuelExpense = calcFuelStats(sortExpenses); //?.toFixed(2) ?? "0,00" грн/км расход топлива
+  const costPerFuelKm = fuelExpense.costPerKm ?.toFixed(2) ?? "0,00"
+  const litersPer100 = fuelExpense.litersPer100 ?.toFixed(1) ?? "0,0"
+  console.log(costPerKm);
+  console.log(litersPer100);
+
 
   return (
     <div className="page-container">
@@ -145,7 +163,7 @@ export default function Statistics() {
         </div>
         <div className="stat-box">
           <span className="stat-label">до 3 заправок</span>
-          <span className="stat-value">{fuelExpense} ₴/км</span>
+          <span className="stat-value">{costPerFuelKm} ₴/км</span>
           {/* {console.log(expenses)} */}
         </div>
       </div>
@@ -156,8 +174,8 @@ export default function Statistics() {
           <span className="stat-value">{totalDistance} км</span>
         </div>
         <div className="stat-box">
-          <span className="stat-label">Всего потрачено</span>
-          <span className="stat-value">{totalSum} ₴</span>
+          <span className="stat-label">Литров на 100 км</span>
+          <span className="stat-value">{litersPer100} л/100 км</span>
         </div>
       </div>
     </div>

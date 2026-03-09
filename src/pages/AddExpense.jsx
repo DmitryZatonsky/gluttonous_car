@@ -20,6 +20,7 @@ export default function AddExpense() {
   const [category, setCategory] = useState("Топливо");
   const [fuelType, setFuelType] = useState("Бензин");
   const [mileage, setMileage] = useState("");
+  const [liters, setLiters] = useState("");
   const [amount, setAmount] = useState("");
   const [comment, setComment] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
@@ -33,6 +34,7 @@ export default function AddExpense() {
       category,
       fuelType: category === "Топливо" ? fuelType : null,
       mileage: Number(mileage),
+      liters: category === "Топливо" ? Number(liters) : null,
       amount: Number(amount),
       comment,
     };
@@ -49,6 +51,7 @@ export default function AddExpense() {
     setCategory("Топливо");
     setFuelType("Бензин");
     setMileage("");
+    setLiters("");
     setAmount("");
     setComment("");
     // console.log(saveExpenses);
@@ -102,6 +105,19 @@ export default function AddExpense() {
                   </option>
                 ))}
               </select>
+            </div>
+          )}
+
+          {category === "Топливо" && (
+            <div className="input-group">
+              <label>Литры</label>
+              <input
+                type="number"
+                placeholder="0"
+                value={liters}
+                onChange={(e) => setLiters(e.target.value)}
+                required
+              />
             </div>
           )}
 
