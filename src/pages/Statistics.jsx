@@ -33,15 +33,17 @@ export default function Statistics() {
     : "0.00";
 
   const fuelExpense = calcFuelStats(sortExpenses);
-  const costPerFuelKm = fuelExpense.costPerKm.toFixed(2);
-  const litersPer100 = fuelExpense.litersPer100.toFixed(1);
+  // const costPerFuelKm = fuelExpense.costPerKm;
+  // const litersPer100 = fuelExpense.litersPer100.toFixed(1);
   const statsData = [
     { label: "Стоимость км", value: `${costPerKm} ₴/км` },
-    { label: "до 3x заправок", value: `${costPerFuelKm} ₴/км` },
     { label: "Пройдено пути", value: `${totalDistance} км` },
-    { label: "Литров на 100 км", value: `${litersPer100} л/100 км` },
+    { label: "на бензине", value: `${fuelExpense.petrolCostPerKm.toFixed(2)} ₴/км` },
+    { label: "на газу", value: `${fuelExpense.gasCostPerKm.toFixed(2)} ₴/км` },
+    { label: "Литров на бензине", value: `${fuelExpense.petrolLitersPer100.toFixed(1)} л/100 км` },
+    { label: "Литров на газу", value: `${fuelExpense.gasLitersPer100.toFixed(1)} л/100 км` },
   ];
-
+  
   return (
     <div className="page-container">
       <h2 className="page-title">Статистика</h2>

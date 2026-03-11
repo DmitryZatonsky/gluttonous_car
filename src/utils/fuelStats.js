@@ -1,33 +1,42 @@
-export function calcFuelStats(expenses) {
-  let count = 0;
-  let firstMileage = 0;
-  let lastMileage = 0;
-  let fuelCost = 0;
-  let fuelLiters = 0;
+export function calcFuelStats(expenses, limit = 3) {
+  const fuels = expenses
+    .filter((e) => e.category === "Топливо")
+    .sort((a, b) => a.mileage - b.mileage);
 
-  for (const e of expenses) {
-    if (e.category !== "Топливо") continue;
+  if (fuels.length < 2) return null;
 
-    if (count === 0) lastMileage = e.mileage;
-    if (count === 2) firstMileage = e.mileage;
+  const limited = fuels.slice(-limit);
 
-    if (count < 2) {
-      fuelCost += e.amount;
-      fuelLiters += e.liters;
-    }
+  const usable = limited.slice(0, -1);
 
-    count++;
-    if (count === 3) break;
-  }
-
+  const firstMileage = limited[0].mileage;
+  const lastMileage = limited[limited.length - 1].mileage;
   const distance = lastMileage - firstMileage;
 
-  if (count < 2 || distance <= 0) {
-    return { costPerKm: 0, litersPer100: 0 };
-  }
+  const stats = {
+    gas: { money: 0, liters: 0 },
+    petrol: { money: 0, liters: 0 },
+  };
+
+  usable.forEach((e) => {
+    if (e.fuelType === "Газ") {
+      stats.gas.money += e.amount;
+      stats.gas.liters += e.liters;
+    }
+
+    if (e.fuelType === "Бензин") {
+      stats.petrol.money += e.amount;
+      stats.petrol.liters += e.liters;
+    }
+  });
 
   return {
-    costPerKm: fuelCost / distance,
-    litersPer100: (fuelLiters / distance) * 100,
+    gasCostPerKm: stats.gas.money / distance,
+    petrolCostPerKm: stats.petrol.money / distance,
+
+    gasLitersPer100: (stats.gas.liters / distance) * 100,
+    petrolLitersPer100: (stats.petrol.liters / distance) * 100,
+
+    distance,
   };
 }
