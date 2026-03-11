@@ -1,15 +1,28 @@
-export function generateColors(categories, mainColor = "#d9008d") {
+// colors.js
+const ACCENT_COLOR = "#d9008d";
+
+export function generateColors(categories) {
   if (!categories.length) return [];
 
-  const colors = [mainColor]; // по дизайну основной цвет первой категории
+  const maxIndex = categories.reduce(
+    (maxIdx, cat, idx, arr) => (cat.value > arr[maxIdx].value ? idx : maxIdx),
+    0
+  );
 
+  const colors = [];
   const remainingCount = categories.length - 1;
+  let hueStep = remainingCount > 0 ? 360 / remainingCount : 0;
+  let hueCounter = 0;
 
-  for (let i = 0; i < remainingCount; i++) {
-    const hue = (i * 360) / remainingCount;
-    const color = `hsl(${hue}, 70%, 60%)`;
-    colors.push(color);
-  }
+  categories.forEach((cat, idx) => {
+    if (idx === maxIndex) {
+      colors.push(ACCENT_COLOR); // акцент внутри colors.js
+    } else {
+      const color = `hsl(${hueCounter}, 70%, 60%)`;
+      colors.push(color);
+      hueCounter += hueStep;
+    }
+  });
 
   return colors;
 }

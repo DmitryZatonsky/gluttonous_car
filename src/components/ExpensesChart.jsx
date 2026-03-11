@@ -2,7 +2,9 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { generateColors } from "../utils/colors";
 
 export default function ExpensesChart({ data, total }) {
-  const colors = generateColors(data.map((d) => d.name));
+  
+  const colors = generateColors(data);
+
   return (
     <>
       <div className="stats-card">
