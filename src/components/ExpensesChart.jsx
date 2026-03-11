@@ -1,9 +1,12 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import { useMemo } from "react";
 import { prepareChartData } from "../utils/colors";
 
 export default function ExpensesChart({ data, total }) {
 
-  const {data: sortedData, colors} = prepareChartData(data);
+  const {data: sortedData, colors} = useMemo(() => {
+    return prepareChartData(data);
+  }, [data]);
 
   return (
     <>
@@ -23,7 +26,7 @@ export default function ExpensesChart({ data, total }) {
               >
                 {sortedData.map((entry, index) => (
                   <Cell
-                    key={`cell-${index}`}
+                    key={entry.name}
                     fill={colors[index]}
                     stroke="none"
                   />
