@@ -1,22 +1,17 @@
-// colors.js
 const ACCENT_COLOR = "#d9008d";
 
-export function generateColors(categories) {
-  if (!categories.length) return [];
+export function prepareChartData(categories) {
+  if (!categories.length) return { data: [], colors: [] };
 
-  const maxIndex = categories.reduce(
-    (maxIdx, cat, idx, arr) => (cat.value > arr[maxIdx].value ? idx : maxIdx),
-    0
-  );
-
+  const sorted = [...categories].sort((a, b) => b.value - a.value);
   const colors = [];
-  const remainingCount = categories.length - 1;
+  const remainingCount = sorted.length - 1;
   let hueStep = remainingCount > 0 ? 360 / remainingCount : 0;
   let hueCounter = 0;
 
-  categories.forEach((cat, idx) => {
-    if (idx === maxIndex) {
-      colors.push(ACCENT_COLOR); // акцент внутри colors.js
+  sorted.forEach((cat, idx) => {
+    if (idx === 0) {
+      colors.push(ACCENT_COLOR); // акцент для категории с наибольшим значением
     } else {
       const color = `hsl(${hueCounter}, 70%, 60%)`;
       colors.push(color);
@@ -24,5 +19,5 @@ export function generateColors(categories) {
     }
   });
 
-  return colors;
+  return { data: sorted, colors };
 }

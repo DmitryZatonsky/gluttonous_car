@@ -1,9 +1,9 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-import { generateColors } from "../utils/colors";
+import { prepareChartData } from "../utils/colors";
 
 export default function ExpensesChart({ data, total }) {
-  
-  const colors = generateColors(data);
+
+  const {data: sortedData, colors} = prepareChartData(data);
 
   return (
     <>
@@ -15,16 +15,16 @@ export default function ExpensesChart({ data, total }) {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
-                data={data}
+                data={sortedData}
                 innerRadius={70}
                 outerRadius={90}
                 paddingAngle={5}
                 dataKey="value"
               >
-                {data.map((entry, index) => (
+                {sortedData.map((entry, index) => (
                   <Cell
                     key={`cell-${index}`}
-                    fill={colors[index % colors.length]}
+                    fill={colors[index]}
                     stroke="none"
                   />
                 ))}
@@ -48,18 +48,18 @@ export default function ExpensesChart({ data, total }) {
       </div>
       {/* Список категорий */}
       <div className="category-legend">
-        {data.map((entry, index) => (
+        {sortedData.map((entry, index) => (
           <div key={entry.name} className="legend-item">
             <div className="legend-info">
               <span
                 className="dot"
                 style={{
-                  backgroundColor: colors[index % colors.length],
+                  backgroundColor: colors[index],
                 }}
               />
               <span className="label">{entry.name}</span>
             </div>
-            <span className="value">{entry.value.toLocaleString()} ₴</span>
+            <span className="value">{Math.round(entry.value).toLocaleString()} ₴</span>
           </div>
         ))}
       </div>
