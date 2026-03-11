@@ -1,176 +1,56 @@
 import { useState, useEffect } from "react";
 import { getExpenses } from "../utils/storage";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
-
-// Цвета для секторов диаграммы
-const COLORS = [
-  "#d9008d",
-  "#f29c11",
-  "#4caf50",
-  "#00bcd4",
-  "#9c27b0",
-  "#ff5722",
-];
+import { groupByCategory } from "../utils/chartData";
+import { calcFuelStats } from "../utils/fuelStats";
+import ExpensesChart from "../components/ExpensesChart";
+import StatCards from "../components/StatCards";
 
 export default function Statistics() {
   const [data, setData] = useState([]);
   const [total, setTotal] = useState(0);
-  const expenses = getExpenses();
-  const sortExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date),);
-  const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0).toFixed(0); // общая сумма
-  const mileages = expenses.map((e) => e.mileage).filter((m) => m > 0);
-  const maxMileage = Math.max(...mileages);
-  const minMileage = Math.min(...mileages);
-  const totalDistance = maxMileage - minMileage; // общий пробег
-  const costPerKm = totalDistance ? (totalSum / totalDistance).toFixed(2) : "0.00"; // стоимость километра всего
 
   useEffect(() => {
     const expenses = getExpenses();
-    if (expenses.length === 0) return;
+    if (!expenses.length) return;
 
-    // 1. Считаем общую сумму
-    const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0);
-    setTotal(totalSum);
+    setTotal(expenses.reduce((sum, item) => sum + item.amount, 0));
 
-    // 2. Группируем по категориям для диаграммы
-    const chartData = expenses.reduce((acc, item) => {
-      const existing = acc.find((c) => c.name === item.category);
-      if (existing) {
-        existing.value += item.amount;
-      } else {
-        acc.push({ name: item.category, value: item.amount });
-      }
-      return acc;
-    }, []);
-
-    setData(chartData); // для рендеринга массива категорий и сумм
+    setData(groupByCategory(expenses));
   }, []);
 
-  // средняя стоимость за км от 2 до 3 последних заправок
-const calcFuelStats = (expenses) => {
-  let count = 0;
-  let firstMileage = 0;
-  let lastMileage = 0;
-  let fuelCost = 0;
-  let fuelLiters = 0;
+  const expenses = getExpenses();
+  const sortExpenses = expenses.sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
 
-  for (const e of expenses) {
-    if (e.category !== "Топливо") continue;
+  const totalSum = expenses.reduce((sum, item) => sum + item.amount, 0);
+  const mileages = expenses.map((e) => e.mileage).filter(Boolean);
+  const maxMileage = Math.max(...mileages);
+  const minMileage = Math.min(...mileages);
+  const totalDistance = maxMileage - minMileage;
+  const costPerKm = totalDistance
+    ? (totalSum / totalDistance).toFixed(2)
+    : "0.00";
 
-    if (count === 0) lastMileage = e.mileage;
-    if (count === 2) firstMileage = e.mileage;
-
-    if (count < 2) {
-      fuelCost += e.amount;
-      fuelLiters += e.liters;
-    }
-
-    count++;
-    if (count === 3) break;
-  }
-
-  const distance = lastMileage - firstMileage;
-
-  if (count < 2 || distance <= 0) {
-    return { costPerKm: 0, litersPer100: 0 };
-  }
-
-  return {
-    costPerKm: fuelCost / distance,
-    litersPer100: (fuelLiters / distance) * 100
-  };
-};
-
-  const fuelExpense = calcFuelStats(sortExpenses); // грн/км расход топлива
-  const costPerFuelKm = fuelExpense.costPerKm ?.toFixed(2) ?? "0,00"
-  const litersPer100 = fuelExpense.litersPer100 ?.toFixed(1) ?? "0,0"
-
+  const fuelExpense = calcFuelStats(sortExpenses);
+  const costPerFuelKm = fuelExpense.costPerKm.toFixed(2);
+  const litersPer100 = fuelExpense.litersPer100.toFixed(1);
+  const statsData = [
+    { label: "Стоимость км", value: `${costPerKm} ₴/км` },
+    { label: "до 3x заправок", value: `${costPerFuelKm} ₴/км` },
+    { label: "Пройдено пути", value: `${totalDistance} км` },
+    { label: "Литров на 100 км", value: `${litersPer100} л/100 км` },
+  ];
 
   return (
     <div className="page-container">
       <h2 className="page-title">Статистика</h2>
+      {/* Диаграмма с категориями */}
+      <ExpensesChart data={data} total={total} />
 
-      <div className="stats-card">
-        <div
-          className="chart-container"
-          style={{ width: "100%", height: 300, position: "relative" }}
-        >
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={data}
-                innerRadius={70}
-                outerRadius={90}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {data.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                    stroke="none"
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "#232035",
-                  border: "none",
-                  borderRadius: "8px",
-                  color: "#fff",
-                }}
-                itemStyle={{ color: "#fff" }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-
-          {/* Сумма в центре диаграммы */}
-          <div className="chart-center-text">
-            <span className="total-label">Всего</span>
-            <span className="total-amount">{total.toLocaleString()} ₴</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Список категорий под графиком */}
-      <div className="category-legend">
-        {data.map((entry, index) => (
-          <div key={entry.name} className="legend-item">
-            <div className="legend-info">
-              <span
-                className="dot"
-                style={{ backgroundColor: COLORS[index % COLORS.length] }}
-              ></span>
-              <span className="label">{entry.name}</span>
-            </div>
-            <span className="value">{entry.value.toLocaleString()} ₴</span>
-          </div>
-        ))}
-      </div>
-
-      {/* Обновленные карточки */}
-      <div className="stats-grid margin-bottom">
-        <div className="stat-box">
-          <span className="stat-label">Стоимость км</span>
-          <span className="stat-value">{costPerKm} ₴/км</span>
-          {/* {console.log(stats.costPerKm)}; */}
-        </div>
-        <div className="stat-box">
-          <span className="stat-label">до 3 заправок</span>
-          <span className="stat-value">{costPerFuelKm} ₴/км</span>
-          {/* {console.log(expenses)} */}
-        </div>
-      </div>
-
+      {/* Карточки статистики */}
       <div className="stats-grid">
-        <div className="stat-box">
-          <span className="stat-label">Пройдено пути</span>
-          <span className="stat-value">{totalDistance} км</span>
-        </div>
-        <div className="stat-box">
-          <span className="stat-label">Литров на 100 км</span>
-          <span className="stat-value">{litersPer100} л/100 км</span>
-        </div>
+        <StatCards stats={statsData} />
       </div>
     </div>
   );

@@ -1,18 +1,19 @@
 :root {
   /* Цветовая палитра */
-  --bg-color: #1a1727;       /* Глубокий темно-фиолетовый фон */
-  --card-bg: #232035;        /* Чуть более светлый фон для карточек и инпутов */
-  --text-main: #ffffff;      /* Белый текст */
-  --text-muted: #8b889a;     /* Серый текст для подписей */
-  --accent-pink: #d9008d;    /* Неоновый розовый */
-  --accent-orange: #f29c11;  /* Неоновый оранжевый */
+  --bg-color: #1a1727; /* Глубокий темно-фиолетовый фон */
+  --card-bg: #232035; /* Чуть более светлый фон для карточек и инпутов */
+  --text-main: #ffffff; /* Белый текст */
+  --text-muted: #8b889a; /* Серый текст для подписей */
+  --accent-pink: #d9008d; /* Неоновый розовый */
+  --accent-orange: #f29c11; /* Неоновый оранжевый */
 }
 
 * {
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -24,29 +25,32 @@ html, body {
 
   /* Убирает выделение при долгом нажатии */
   -webkit-touch-callout: none;
-  overscroll-behavior-y: contain; 
+  overscroll-behavior-y: contain;
   overscroll-behavior: none;
 }
 
 body {
   -webkit-user-select: none; /* Запрещаем выделять текст*/
   user-select: none;
-  -webkit-tap-highlight-color: transparent;/* Убираем синюю подсветку при тапе на Android */
-  overscroll-behavior-y: none;/* Защита от "резиновой" прокрутки за пределы экрана и обновление потяжкой вниз */
-  
+  -webkit-tap-highlight-color: transparent; /* Убираем синюю подсветку при тапе на Android */
+  overscroll-behavior-y: none; /* Защита от "резиновой" прокрутки за пределы экрана и обновление потяжкой вниз */
+
   /* height: 100%; */
-  overflow: hidden; 
+  overflow: hidden;
   position: fixed;
   width: 100%;
   margin: 0;
   padding: 0;
   background-color: var(--bg-color);
   color: var(--text-main);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-#root {/* Ограничиваем ширину, чтобы на ПК приложение выглядело как мобильное */
+#root {
+  /* Ограничиваем ширину, чтобы на ПК приложение выглядело как мобильное */
   max-width: 480px;
   margin: 0 auto;
   /* min-height: 100vh; */
@@ -56,18 +60,21 @@ body {
   padding-bottom: 70px; /* Отступ снизу для будущего нижнего меню */
   overflow-y: auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;/* Для плавной прокрутки на iOS */
+  -webkit-overflow-scrolling: touch; /* Для плавной прокрутки на iOS */
 }
 
-input, textarea { /* Разрешаем выделять текст в полях ввода (чтобы можно было скопировать комментарий) */
+input,
+textarea {
+  /* Разрешаем выделять текст в полях ввода (чтобы можно было скопировать комментарий) */
   -webkit-user-select: auto;
   user-select: auto;
-
 }
 
-img, button, .stat-box {
+img,
+button,
+.stat-box {
   -webkit-touch-callout: none; /* Запрещает контекстное меню на iOS */
-  -webkit-user-select: none;   /* Запрещает выделение */
+  -webkit-user-select: none; /* Запрещает выделение */
   user-select: none;
 }
 
@@ -86,7 +93,9 @@ img, button, .stat-box {
   justify-content: space-around;
   align-items: center;
   border-top: 1px solid #333;
-  padding-bottom: env(safe-area-inset-bottom); /* Для айфонов с "челкой" снизу */
+  padding-bottom: env(
+    safe-area-inset-bottom
+  ); /* Для айфонов с "челкой" снизу */
 }
 
 .nav-item {
@@ -98,8 +107,8 @@ img, button, .stat-box {
   background-color: var(--card-bg);
   color: var(--text-muted);
   font-size: 12px;
-  transition: all 0.3s ease;}
-
+  transition: all 0.3s ease;
+}
 
 .nav-item.active {
   color: var(--accent-pink);
@@ -141,8 +150,8 @@ img, button, .stat-box {
   font-size: 14px;
 }
 
-.input-group input, 
-.input-group select, 
+.input-group input,
+.input-group select,
 .input-group textarea {
   background: var(--card-bg);
   border: 1px solid #3d3952;
@@ -284,16 +293,11 @@ img, button, .stat-box {
   color: var(--text-main);
 }
 
-.stats-grid {
+.stats-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: repeat(2, 2fr);
+  gap: 20px;
 }
-
-.margin-bottom {
-  margin-bottom: 20px;
-}
-
 
 .stat-box {
   background: var(--card-bg);
@@ -319,9 +323,13 @@ img, button, .stat-box {
 /* ========================= Модалки ========================= */
 
 /* Модальные окна */
-.modal-overlay, .success-overlay {
+.modal-overlay,
+.success-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(5px);
   display: flex;
@@ -356,8 +364,14 @@ img, button, .stat-box {
   cursor: pointer;
 }
 
-.modal-btn.cancel { background: var(--text-muted); color: var(--text-main); }
-.modal-btn.confirm { background: var(--accent-pink); color: var(--text-main); }
+.modal-btn.cancel {
+  background: var(--text-muted);
+  color: var(--text-main);
+}
+.modal-btn.confirm {
+  background: var(--accent-pink);
+  color: var(--text-main);
+}
 
 /* Анимация успеха */
 .success-circle {
@@ -374,8 +388,14 @@ img, button, .stat-box {
 }
 
 @keyframes scaleUp {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* ========================= Кастомный календарь ========================= */
@@ -440,7 +460,7 @@ input[type="date"]::-webkit-datetime-edit {
   transition: 0.3s;
   cursor: pointer;
   /* Важно для темной темы календаря */
-  color-scheme: dark; 
+  color-scheme: dark;
 }
 
 .modern-date-input:focus {
@@ -490,9 +510,13 @@ input[type="date"]::-webkit-datetime-edit {
   border-radius: 50%;
 }
 
-.legend-item .label { color: #8a8894; font-size: 14px; }
-.legend-item .value { font-weight: 600; color: #fff; }
+.legend-item .label {
+  color: #8a8894;
+  font-size: 14px;
+}
+.legend-item .value {
+  font-weight: 600;
+  color: #fff;
+}
 
 /* =========================  ========================= */
-
-
