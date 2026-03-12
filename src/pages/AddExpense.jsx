@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { saveExpenses } from "../utils/storage";
-import SuccessPopup from "../components/SuccessPopup";
+import SuccessPopup from "../components/modal/SuccessPopup";
 import { Calendar as CalendarIcon } from "lucide-react";
 
 const FUEL_TYPES = ["Бензин", "Газ", "Дизель", "Электричество"];
@@ -45,7 +45,7 @@ export default function AddExpense() {
 
     saveExpenses(newExpense);
     setShowSuccess(true); // Показываем кружок "успех"
-    setTimeout(() => setShowSuccess(false), 1000);
+    setTimeout(() => setShowSuccess(false), 100000);
 
     // Очищаем поля (кроме даты и категории)
     setCategory("Топливо");

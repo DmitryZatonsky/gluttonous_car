@@ -323,15 +323,14 @@ button,
 /* ========================= Модалки ========================= */
 
 /* Модальные окна */
-.modal-overlay,
-.success-overlay {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -346,7 +345,7 @@ button,
   width: 100%;
   max-width: 320px;
   text-align: center;
-  border: 1px solid #3d3952;
+  border: 1px solid var(--card-bg);
 }
 
 .modal-actions {
@@ -374,7 +373,7 @@ button,
 }
 
 /* Анимация успеха */
-.success-circle {
+.modal-success-circle {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -382,10 +381,10 @@ button,
   animation: scaleUp 0.3s ease-out;
 }
 
-.success-circle span {
+/* .modal-success-circle span {
   font-size: 20px;
   font-weight: 500;
-}
+} */
 
 @keyframes scaleUp {
   from {

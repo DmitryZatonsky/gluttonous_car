@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getExpenses, deleteExpense } from "../utils/storage";
 import { Trash2, Calendar, Gauge, CreditCard } from "lucide-react";
-import Modal from '../components/Modal';
+import Modal from '../components/modal/Modal';
 
 export default function History() {
   const [expenses, setExpenses] = useState([]);
