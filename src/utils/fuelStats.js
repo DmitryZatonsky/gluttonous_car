@@ -3,7 +3,14 @@ export function calcFuelStats(expenses, limit = 3) {
     .filter((e) => e.category === "Топливо")
     .sort((a, b) => a.mileage - b.mileage);
 
-  if (fuels.length < 2) return null;
+  if (fuels.length < 2)
+    return {
+      gasCostPerKm: 0,
+      petrolCostPerKm: 0,
+      gasLitersPer100: 0,
+      petrolLitersPer100: 0,
+      distance: 0,
+    };
 
   const limited = fuels.slice(-limit);
 
