@@ -1,4 +1,4 @@
-export function calcFuelStats(expenses, limit = 3) {
+export function calcFuelStats(expenses, limit = 7) {
   const fuels = expenses
     .filter((e) => e.category === "Топливо")
     .sort((a, b) => a.mileage - b.mileage);
@@ -40,10 +40,8 @@ export function calcFuelStats(expenses, limit = 3) {
   return {
     gasCostPerKm: stats.gas.money / distance,
     petrolCostPerKm: stats.petrol.money / distance,
-
     gasLitersPer100: (stats.gas.liters / distance) * 100,
     petrolLitersPer100: (stats.petrol.liters / distance) * 100,
-
     distance,
   };
 }

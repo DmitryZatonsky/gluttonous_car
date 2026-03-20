@@ -320,6 +320,77 @@ button,
   color: var(--accent-orange);
 }
 
+.stat-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--accent-orange);
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  align-items: center;
+  gap: 20px;
+
+  /* justify-content: space-between; */
+  /* align-items: center; */
+  margin-bottom: 20px;
+}
+
+.stat-input::-webkit-outer-spin-button,
+.stat-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stat-box--with-input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* левая часть */
+.stat-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* правый "инпут-блок" */
+.stat-input-wrapper {
+  background: var(--card-bg);
+  border: 1px solid #3d3952;
+  border-radius: 14px;
+  padding: 10px 14px;
+  min-width: 80px;
+  text-align: center;
+}
+
+/* сам input */
+.stat-input-wrapper input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--accent-orange);
+}
+
+/* убрать стрелки */
+.stat-input-wrapper input::-webkit-outer-spin-button,
+.stat-input-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.stat-box--full {
+  grid-column: span 2;
+}
+
 /* ========================= Модалки ========================= */
 
 /* Модальные окна */
