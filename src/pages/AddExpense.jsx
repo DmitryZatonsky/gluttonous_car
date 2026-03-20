@@ -45,7 +45,7 @@ export default function AddExpense() {
 
     saveExpenses(newExpense);
     setShowSuccess(true); // Показываем кружок "успех"
-    setTimeout(() => setShowSuccess(false), 100000);
+    setTimeout(() => setShowSuccess(false), 1000);
 
     // Очищаем поля (кроме даты и категории)
     setCategory("Топливо");
